@@ -11,11 +11,11 @@
       }
     },
     "github": {
-      "type": "remote",
-      "url": "${GITHUB_MCP_URL}",
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
       "enabled": true,
-      "headers": {
-        "Authorization": "Bearer ${GITHUB_TOKEN}"
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GH_PERSONAL_TOKEN}"
       }
     },
     "brave-search": {
@@ -30,6 +30,21 @@
       "type": "local",
       "command": ["npx", "-y", "@modelcontextprotocol/server-sequential-thinking"],
       "enabled": true
+    },
+    "context7": {
+      "type": "local",
+      "command": ["npx", "-y", "@upstash/context7-mcp@latest"],
+      "enabled": true
+    },
+    "jira": {
+      "type": "local",
+      "command": ["uvx", "mcp-atlassian"],
+      "enabled": true,
+      "env": {
+        "JIRA_URL": "https://numan.atlassian.net",
+        "JIRA_USERNAME": "christos.paschalidis@numan.com",
+        "JIRA_API_TOKEN": "${JIRA_PERSONAL_TOKEN}"
+      }
     }
   },
   "permission": {
