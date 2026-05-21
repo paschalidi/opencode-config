@@ -1,0 +1,27 @@
+# Ignore everything by default, then explicitly un-ignore what we track
+*
+
+# Un-ignore tracked config files
+!opencode.json
+!.env.example
+!README.md
+!.gitignore
+
+# Keep ignoring sensitive/local files even if patterns above would match
+.env
+.envrc
+
+# macOS
+.DS_Store
+
+# Node.js
+node_modules/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
