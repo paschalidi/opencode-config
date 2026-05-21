@@ -7,6 +7,12 @@
 !README.md
 !.gitignore
 
+# Un-ignore agents and skills directories
+!agents/
+!agents/**
+!skills/
+!skills/**
+
 # Keep ignoring sensitive/local files even if patterns above would match
 .env
 .envrc

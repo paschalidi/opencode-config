@@ -1,0 +1,43 @@
+timestamp="2026-05-11T10:59:16.964655" level="error" name="django.request" message="Internal Server Error: /orchestrator/events/subscription-activated/" path="/usr/local/lib/python3.11/site-packages/django/utils/log.py" line_number=253 exc_text="Traceback (most recent call last):
+ File \"/usr/local/lib/python3.11/site-packages/django/core/handlers/exception.py\", line 55, in inner
+ response = get_response(request)
+ ^^^^^^^^^^^^^^^^^^^^^
+ File \"/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py\", line 197, in _get_response
+ response = wrapped_callback(request, *callback_args, **callback_kwargs)
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ File \"/usr/local/lib/python3.11/site-packagesinja/operation.py\", line 487, in sync_view_wrapper
+ return self._sync_view(request, *args, **kwargs)
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ File \"/usr/local/lib/python3.11/site-packages/ninja/operation.py\", line 499, in _sync_view
+ return operation.run(request, *a, **kw)
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ File \"/usr/local/lib/python3.11/site-packages/ninja/operation.py\", line 141, in run
+ return self.api.on_exception(request, e)
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ File \"/usr/local/lib/python3.11/site-packages/ninja/main.py\", line 531, in on_exception
+ return handler(request, exc)
+ ^^^^^^^^^^^^^^^^^^^^^
+ File \"/usr/local/lib/python3.11/site-packages/ninja/errors.py\", line 129, in _default_exception
+ raise exc # let django deal with it
+ ^^^^^^^^^
+ File \"/usr/local/lib/python3.11/site-packages/ninja/operation.py\", line 133, in run
+ values = self._get_values(request, kw, temporal_response)
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ File \"/usr/local/lib/python3.11/site-packages/ninja/operation.py\", line 309, in _get_values
+ data = model.resolve(request, self.api, path_params)
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ File \"/usr/local/lib/python3.11/site-packages/ninja/params/models.py\", line 63, in resolve
+ return cls.model_validate(data, context={\"request\": request})
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^t
+ File \"/usr/local/lib/python3.11/site-packages/pydantic/main.py\", line 716, in model_validate
+ return cls.__pydantic_validator__.validate_python(
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ File \"/usr/local/lib/python3.11/site-packages/events_system/schemas.py\", line 72, in __init__
+ super().__init__(**data)
+ File \"/usr/local/lib/python3.11/site-packages/pydantic/main.py\", line 250, in __init__
+ validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ File \"/usr/local/lib/python3.11/site-packages/events_system/schemas.py\", line 36, in __init__
+ \"data\": self.decode_data_str(fields[\"data\"]),
+ ~~~~~~^^^^^^^^
+KeyError: 'data'" status_code=500
