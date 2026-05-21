@@ -6,7 +6,7 @@
       "type": "local",
       "command": ["npx", "-y", "@playwright/mcp"],
       "enabled": true,
-      "env": {
+      "environment": {
         "BROWSER": "${BROWSER:-chromium}"
       }
     },
@@ -14,7 +14,7 @@
       "type": "local",
       "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
       "enabled": true,
-      "env": {
+      "environment": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GH_PERSONAL_TOKEN}"
       }
     },
@@ -40,7 +40,7 @@
       "type": "local",
       "command": ["uvx", "mcp-atlassian"],
       "enabled": true,
-      "env": {
+      "environment": {
         "JIRA_URL": "https://numan.atlassian.net",
         "JIRA_USERNAME": "christos.paschalidis@numan.com",
         "JIRA_API_TOKEN": "${JIRA_PERSONAL_TOKEN}"
