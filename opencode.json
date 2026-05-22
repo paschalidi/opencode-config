@@ -4,7 +4,11 @@
   "mcp": {
     "playwright": {
       "type": "local",
-      "command": ["npx", "-y", "@playwright/mcp"],
+      "command": [
+        "npx",
+        "-y",
+        "@playwright/mcp"
+      ],
       "enabled": true,
       "environment": {
         "BROWSER": "${BROWSER:-chromium}"
@@ -12,7 +16,11 @@
     },
     "github": {
       "type": "local",
-      "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
       "enabled": true,
       "environment": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GH_PERSONAL_TOKEN}"
@@ -28,31 +36,48 @@
     },
     "sequential-thinking": {
       "type": "local",
-      "command": ["npx", "-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
       "enabled": true
     },
     "context7": {
       "type": "local",
-      "command": ["npx", "-y", "@upstash/context7-mcp@latest"],
+      "command": [
+        "npx",
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ],
       "enabled": true
     },
     "jira": {
       "type": "local",
-      "command": ["uvx", "mcp-atlassian"],
+      "command": [
+        "uvx",
+        "mcp-atlassian"
+      ],
       "enabled": true,
       "environment": {
         "JIRA_URL": "https://numan.atlassian.net",
         "JIRA_USERNAME": "christos.paschalidis@numan.com",
         "JIRA_API_TOKEN": "${JIRA_PERSONAL_TOKEN}"
       }
+    },
+    "filesystem": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/christos/dev/numan/numan-development/repos/the-monolith"
+      ],
+      "enabled": true
     }
   },
   "permission": {
-    "edit": "ask",
-    "bash": {
-      "git *": "allow",
-      "npm *": "allow",
-      "*": "ask"
-    }
+    "edit": "allow",
+    "bash": "allow"
   }
 }

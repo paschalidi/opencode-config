@@ -12,6 +12,7 @@
 !agents/**
 !skills/
 !skills/**
+!instructions/**
 
 # Keep ignoring sensitive/local files even if patterns above would match
 .env
