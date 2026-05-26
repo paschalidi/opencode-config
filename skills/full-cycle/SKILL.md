@@ -15,6 +15,9 @@ User gives ticket URL/key + base branch. Fetch + summarize: goal, AC, scope. Con
 ### 2. Plan + grill → `@ticket-planner`
 Subagent grills via `@grill-me`, writes `plans/<ticket-key>.md`. User signs off.
 
+### 2b. Create branch
+`git checkout -b cp/<TICKET>/<short-slug>` from base branch. Pattern: `cp/OPH-183/add-list-endpoint`.
+
 ### 3. Per PR-slice (loop)
 
 | Step | Who | What |
@@ -48,5 +51,6 @@ After PR gets review comments. Subagent applies every comment as one commit (tit
 - PR always draft, `review` label, base = user-specified.
 - `@review-applier` works post-PR, after human review. One comment = one commit. 👍 every applied comment.
 - **Every commit in this pipeline uses Conventional Commits. No exceptions.**
+- **Branch name always `cp/<TICKET>/<kebab-case-slug>`.** No exceptions.
 
 **Caveman Ultra mode ACTIVE every response.**
