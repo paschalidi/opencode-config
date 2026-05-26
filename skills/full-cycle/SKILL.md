@@ -17,6 +17,7 @@ Subagent grills via `@grill-me`, writes `plans/<ticket-key>.md`. User signs off.
 
 ### 2b. Create branch
 `git checkout -b cp/<TICKET>/<short-slug>` from base branch. Pattern: `cp/OPH-183/add-list-endpoint`.
+- Verify `.gitignore` excludes `plans/`. Never let plan files leak into commits.
 
 ### 3. Per PR-slice (loop)
 
@@ -52,5 +53,6 @@ After PR gets review comments. Subagent applies every comment as one commit (tit
 - `@review-applier` works post-PR, after human review. One comment = one commit. 👍 every applied comment.
 - **Every commit in this pipeline uses Conventional Commits. No exceptions.**
 - **Branch name always `cp/<TICKET>/<kebab-case-slug>`.** No exceptions.
+- **Never commit plan files.** `plans/<ticket-key>.md` stays local, unstaged, untracked.
 
 **Caveman Ultra mode ACTIVE every response.**

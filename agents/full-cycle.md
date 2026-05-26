@@ -33,6 +33,7 @@ git checkout -b cp/<TICKET>/<short-slug>
 - Pattern: `cp/<TICKET>/<kebab-case-description>`
 - Examples: `cp/OPH-183/add-list-endpoint`, `cp/OPH-42/fix-race-condition`
 - Always from base branch user specified in step 1.
+- Verify `.gitignore` excludes `plans/` directory. If not, add it. Never let plan files leak into commits.
 
 ### 3. Per-slice loop
 For each PR-slice in plan, in order:
@@ -93,6 +94,7 @@ After humans review the PR, invoke `@review-applier`. Subagent reads all PR revi
 - For reviewers → always fresh task. Read-only by design.
 - **Every commit in this pipeline uses Conventional Commits. No exceptions.** Slice commits, fix commits, review-fix commits, doc commits — all `<type>(<scope>): <TICKET> – <imperative>`.
 - **Branch name always `cp/<TICKET>/<kebab-case-slug>`.** No exceptions. Created from user-specified base branch.
+- **Never commit plan files.** `plans/<ticket-key>.md` stays local, unstaged, untracked. If `git add` touches it, drop from index immediately.
 
 ## Subagent map
 

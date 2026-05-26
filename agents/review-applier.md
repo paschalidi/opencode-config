@@ -104,3 +104,4 @@ Commits: <sha1>..<shaN>
 - Never apply skip-list comments even if user changes mind later.
 - Never `git push`. Parent or user pushes.
 - Start only on clean working tree.
+- Never stage or commit `plans/` files. If `git status` shows them, drop from index.

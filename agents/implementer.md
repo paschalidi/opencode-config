@@ -51,7 +51,7 @@ Two invocation modes:
 - One slice per invocation. Never bleed scope.
 - Never `git commit`. Parent owns commits.
 - Never `git push`. Parent owns pushing.
-- Never modify the plan file. Read-only.
+- Never modify the plan file. Read-only. Never stage or commit it.
 - Never invoke other subagents. Parent orchestrates.
 - If a slice can't be built as specified → stop, report blocker, do not improvise.
 - Tests + typecheck must pass before reporting done. If they fail and you can't fix them → report failure, do not hide it.
