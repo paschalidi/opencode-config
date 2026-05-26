@@ -1,39 +1,47 @@
 ---
 name: full-cycle
-description: Run the full ticket-to-PR pipeline: read ticket → grill+plan → code → docs → review → fix → open draft PR. Use when user says "run full cycle", "run pipeline", "full-cycle", or "ship it".
+description: Run the full ticket-to-PR pipeline as a multi-agent loop. Parent orchestrates; subagents implement, doc, review (parallel standards+spec axes), and fix per PR-slice. Use when user says "run full cycle", "run pipeline", "full-cycle", or "ship it".
 ---
 
 # Full Cycle Pipeline
 
-Run steps in order. Wait for user input at interactive gates.
+Multi-agent. Parent thin. Subagents do work. Wait for user at gates.
 
 ## Pipeline
 
 ### 1. Read ticket
-User provides ticket URL or key. Fetch and summarize: goal, acceptance criteria, scope. Confirm with user.
+User gives ticket URL/key + base branch. Fetch + summarize: goal, AC, scope. Confirm.
 
-### 2. Plan + grill
-Interview user about approach using `@grill-me` mindset — walk decision branches, recommend answers, explore codebase to resolve questions. Write plan to `plans/<ticket-key>.md` with PR breakdown.
+### 2. Plan + grill → `@ticket-planner`
+Subagent grills via `@grill-me`, writes `plans/<ticket-key>.md`. User signs off.
 
-### 3. Write code
-Implement per plan. One PR-slice at a time. After each slice, commit with Conventional Commits message. Ask user before moving to next slice.
+### 3. Per PR-slice (loop)
 
-### 4. Write docs
-Run `@doc-weaver` workflow on changed files. Only public new code. No implementation detail, no cross-refs. Google-style (Python) or JSDoc (JS/TS).
+| Step | Who | What |
+|---|---|---|
+| 3a | `@implementer` | Implement slice. Run tests/typecheck. Stage files. Return diff stat. Parent saves `task_id`. |
+| 3b | `@docs-writer` | Inline docs on new public API. |
+| 3c | parent | `git diff --cached` + glob standards files. |
+| 3d | `@standards-reviewer` ‖ `@spec-reviewer` | Parallel fan-out. One message, two Task calls. Read-only. |
+| 3e | parent | Print both reports. User picks: proceed / fix all / fix subset / reject. |
+| 3f | `@implementer` (resume `task_id`) | Apply selected fixes. Re-test. Re-stage. → loop 3d–3e. |
+| 3g | parent | Commit. Conventional Commits. `<type>(<scope>): <TICKET> – <imperative>`. |
+| 3h | parent | Ask user → next slice. |
 
-### 5. Review
-Run `@feature-reviewer` workflow. Present deepening candidates to user. User picks what to fix.
+### 4. Architecture pass → `@feature-reviewer`
+After last slice. Default on, optional. User picks deepening fixes. `@implementer` applies (fresh task_id). Commit each.
 
-### 6. Fix
-Apply selected fixes from review. One at a time. Commit each fix.
-
-### 7. Open draft PR
-Use `@open-draft-pr` workflow: commit staged changes, push, open draft PR against base branch from step 1. PR is always draft with `review` label.
+### 5. Open draft PR → `@open-draft-pr` skill
+Push. Draft PR vs base from step 1. `review` label.
 
 ## Hard rules
-- Never skip the grilling step. User must sign off on plan before writing code.
-- Never skip the review step. User must pick fixes before PR.
-- Each code slice is a separate commit.
-- PR is always draft with `review` label.
+
+- Never skip grilling. User signs off plan.
+- Never skip per-slice review. No auto-pass.
+- Never auto-apply fixes — user picks.
+- Subagents never `git commit` / `git push`. Parent owns git state changes.
+- Reviewers always fresh task, read-only. `@implementer` resumes `task_id` for fix mode.
+- One slice = one commit (+ optional fix commits).
+- PR always draft, `review` label, base = user-specified.
 
 **Caveman Ultra mode ACTIVE every response.**
