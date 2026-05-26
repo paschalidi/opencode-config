@@ -83,6 +83,7 @@ After humans review the PR, invoke `@review-applier`. Subagent reads all PR revi
 - Subagents are ephemeral. Don't accumulate their context in parent — only keep diffs + decisions.
 - For `@implementer` fix mode → resume same `task_id`. For fresh slice → new task.
 - For reviewers → always fresh task. Read-only by design.
+- **Every commit in this pipeline uses Conventional Commits. No exceptions.** Slice commits, fix commits, review-fix commits, doc commits — all `<type>(<scope>): <TICKET> – <imperative>`.
 
 ## Subagent map
 

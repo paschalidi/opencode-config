@@ -47,5 +47,6 @@ After PR gets review comments. Subagent applies every comment as one commit (tit
 - One slice = one commit (+ optional fix commits).
 - PR always draft, `review` label, base = user-specified.
 - `@review-applier` works post-PR, after human review. One comment = one commit. 👍 every applied comment.
+- **Every commit in this pipeline uses Conventional Commits. No exceptions.**
 
 **Caveman Ultra mode ACTIVE every response.**

@@ -33,9 +33,9 @@ Do **not** ask about anything else. Keep the body minimal.
 5. **Push** with upstream tracking: `git push -u origin <current-branch>`.
 6. **Build the PR body** from `.github/pull_request_template.md`. Keep it minimal:
    - `## 🧐 Overview` — 1–3 sentences: what changed and why. If stacked, add `Stacked on top of #<parent-PR-number>.`
-   - `## 📸 Attachments` — leave empty (no comment placeholders).
-   - `## 🔥 Risk Level` — single 🔥 emoji line, count reflecting actual risk (default 🔥 for small, well-tested changes).
-   - `## 📓 Comments` — leave empty.
+    - `## 📸 Attachments` — `n/a` if nothing to attach. Never leave blank.
+    - `## 🔥 Risk Level` — single 🔥 emoji line, count reflecting actual risk (default 🔥 for small, well-tested changes).
+    - `## 📓 Comments` — `n/a` if nothing to add. Never leave blank.
    - `## 🛫 Pre-flight Checklist` — tick `Covered by specs?` only if tests were added/updated; tick `Update relevant documentation.` only if docs were touched.
    - **Do not** include any HTML comments from the template, and do not invent sections.
 7. **Open the PR** via `gh pr create`:
@@ -49,7 +49,7 @@ Do **not** ask about anything else. Keep the body minimal.
 - PR is **always** draft.
 - PR always has the `review` label on it
 - Base branch is **exactly** the one the user specified — never default to `main` when a base is given.
-- Title **must** follow Conventional Commits and include the ticket key.
+- Title **must** follow Conventional Commits and include the ticket key. No exceptions.
 - Body must be short — no fluff, no marketing, no restating the diff line-by-line.
 - Never push to or modify the base branch. Never amend or rebase without being asked.
 - Never run `git add`; only commit what the user already staged.
