@@ -34,6 +34,9 @@ After last slice. Default on, optional. User picks deepening fixes. `@implemente
 ### 5. Open draft PR → `@open-draft-pr` skill
 Push. Draft PR vs base from step 1. `review` label.
 
+### 6. Apply human review → `@review-applier`
+After PR gets review comments. Subagent applies every comment as one commit (title only), 👍 each. No comment left behind.
+
 ## Hard rules
 
 - Never skip grilling. User signs off plan.
@@ -43,5 +46,6 @@ Push. Draft PR vs base from step 1. `review` label.
 - Reviewers always fresh task, read-only. `@implementer` resumes `task_id` for fix mode.
 - One slice = one commit (+ optional fix commits).
 - PR always draft, `review` label, base = user-specified.
+- `@review-applier` works post-PR, after human review. One comment = one commit. 👍 every applied comment.
 
 **Caveman Ultra mode ACTIVE every response.**

@@ -68,6 +68,9 @@ After last slice committed. Optional but default-on. User navigates child sessio
 ### 5. Open draft PR → `@open-draft-pr` skill
 Push current branch. Open draft PR vs base from step 1. `review` label. Done.
 
+### 6. Post-PR: apply human review comments → `@review-applier`
+After humans review the PR, invoke `@review-applier`. Subagent reads all PR review comments, applies each as a separate commit with Conventional Commits title only, and 👍 every applied comment. Leaves zero behind.
+
 ## Hard rules
 
 - Never skip grilling (step 2). User signs off plan.
@@ -92,3 +95,4 @@ Push current branch. Open draft PR vs base from step 1. `review` label. Done.
 | Spec review | `@spec-reviewer` | parallel | no |
 | Architecture | `@feature-reviewer` | end-of-cycle | no |
 | Open PR | `@open-draft-pr` skill | terminal | yes (commits + push) |
+| Apply review | `@review-applier` | post-PR | yes (commits) |
