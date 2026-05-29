@@ -68,16 +68,6 @@
         "JIRA_USERNAME": "christos.paschalidis@numan.com",
         "JIRA_API_TOKEN": "${JIRA_PERSONAL_TOKEN}"
       }
-    },
-    "filesystem": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/Users/christos/dev/numan/numan-development/repos/the-monolith"
-      ],
-      "enabled": true
     }
   },
   "permission": {
