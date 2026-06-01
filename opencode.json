@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "anthropic/claude-sonnet-4",
+  "model": "opencode/kimi-k2.6",
   "instructions": [
     "~/config/opencode/instructions/logging-standards.md",
     "~/config/opencode/instructions/python-testing-standards.md"
@@ -30,20 +30,23 @@
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GH_PERSONAL_TOKEN}"
       }
     },
-    "brave-search": {
-      "type": "remote",
-      "url": "https://api.search.brave.com/res/v1/web/search",
-      "enabled": false,
-      "headers": {
-        "X-Subscription-Token": "${BRAVE_API_KEY}"
-      }
-    },
-    "sequential-thinking": {
+    "filesystem": {
       "type": "local",
       "command": [
         "npx",
         "-y",
-        "@modelcontextprotocol/server-sequential-thinking"
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/paschalidi",
+        "/Users/paschalidi/workspace"
+      ],
+      "enabled": true
+    },
+    "vercel": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-vercel"
       ],
       "enabled": true
     },

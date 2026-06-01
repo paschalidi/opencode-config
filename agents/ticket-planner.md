@@ -1,5 +1,6 @@
 ---
 description: Reads tickets, stress-tests plans via @grill-me, and writes plan documents split into PR-sized chunks. Use when planning work from a ticket or feature request.
+model: opencode/kimi-k2.6
 mode: subagent
 permission:
   read: allow

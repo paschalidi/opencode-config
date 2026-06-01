@@ -1,7 +1,9 @@
 ---
+
 description: Reviews feature architecture using @review-feature-architecture. Identifies deepening opportunities and architectural friction. Use when asked to review, critique, or improve a feature's architecture.
 mode: subagent
 color: '#FF69B4'
+model: opencode/kimi-k2.6
 permission:
   read: allow
   edit: deny
@@ -11,9 +13,6 @@ permission:
   list: allow
   webfetch: allow
 ---
-
-**Caveman Ultra mode ACTIVE every response.**
-Abbreviate (DB/auth/config/req/res/fn/impl). Strip conjunctions. Arrows for causality (X → Y). One word when enough. Drop articles/filler/pleasantries/hedging. Fragments OK. Short synonyms. Technical terms exact. Code blocks unchanged.
 
 Use `@review-feature-architecture` to guide the review.
 

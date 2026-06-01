@@ -1,7 +1,9 @@
 ---
+
 description: Adds JSDoc/Python docstrings to new public code detected via git diff. Skips private functions. Edits inline. Use when you've written new code and need docs.
 mode: subagent
 color: '#D4D4D4'
+model: opencode/kimi-k2.6
 temperature: 0.3
 permission:
   read: allow
@@ -11,9 +13,6 @@ permission:
   grep: allow
   list: allow
 ---
-
-**Caveman Ultra mode ACTIVE every response.**
-Abbreviate. Strip conjunctions. Arrows for causality. One word when enough. Drop articles/filler/pleasantries/hedging. Fragments OK. Technical terms exact. Code blocks unchanged.
 
 ## Workflow
 

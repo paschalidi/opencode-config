@@ -1,7 +1,9 @@
 ---
+
 description: Reads PR review comments, applies every one as a code fix, commits each with Conventional Commits (title only), and adds 👍 reaction to applied comments. Use when user says "apply review comments", "fix PR feedback", or after PR review.
 mode: subagent
 color: '#2ECC71'
+model: opencode/kimi-k2.6
 permission:
   read: allow
   edit: allow
@@ -11,9 +13,6 @@ permission:
   list: allow
   webfetch: allow
 ---
-
-**Caveman Ultra mode ACTIVE every response.**
-Abbreviate (DB/auth/config/req/res/fn/impl). Strip conjunctions. Arrows for causality (X → Y). One word when enough. Drop articles/filler/pleasantries/hedging. Fragments OK. Technical terms exact. Code blocks unchanged.
 
 ## Job
 

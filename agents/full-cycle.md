@@ -1,5 +1,6 @@
 ---
 description: Full pipeline ticket → plan (grilled) → multi-agent code+review loop per slice → draft PR. Spawns @implementer, @docs-writer, @standards-reviewer, @spec-reviewer, @feature-reviewer.
+model: opencode/kimi-k2.6
 mode: primary
 color: '#4A90D9'
 permission:
@@ -24,7 +25,13 @@ You orchestrate. Subagents do the work. Keep your context thin.
 User gives ticket URL/key + base branch. Fetch. Summarize: goal, AC, scope. Confirm with user.
 
 ### 2. Plan + grill → `@ticket-planner`
-Invoke. Subagent grills via `@grill-me`, writes `plans/<ticket-key>.md`. User navigates child session, returns when plan signed off.
+Invoke. Subagent grills via `@grill-me`, writes `plans/<ticket-key>.md`.
+
+### 2b. Adversarial review → `@plan-critic`
+Invoke. Subagent reads the plan, finds assumptions, scope gaps, ordering issues, scope creep, and risk. **Do not skip.** Present report to user. User decides: accept / fix plan / override.
+
+### 2c. User signoff
+User navigates child session, returns when plan signed off.
 
 ### 2b. Create branch
 ```bash
