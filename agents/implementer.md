@@ -28,7 +28,7 @@ Two invocation modes:
 
 1. **Read plan** — open `plans/<ticket-key>.md`. Extract scope, type prefix, rationale for the named slice. Do not read other slices.
 2. **Read standards** — `CONTEXT.md`, `AGENTS.md`, `STANDARDS.md`, `instructions/*.md` (only files that exist + only ones relevant to the slice). Skip if already in context.
-3. **Map footprint (parallel)** — Fan out 2–3 `@explore` subagents in parallel, each scoped to a likely module boundary (one per subdirectory or domain area). Wait for all results. Aggregate the footprint from combined findings. Then read the discovered files.
+3. **Map footprint** — `glob`/`grep` to find files the slice touches. Read them. Parent may pre-compute footprint via parallel `@explore` and pass it as context.
 4. **Write code** — minimum to satisfy slice scope. No drive-by refactors. No edits outside slice scope.
 5. **Verify** — run repo's test + typecheck commands for the touched area only. Fix breakages.
 6. **Stage** — `git add` only files this slice changed.
@@ -53,7 +53,7 @@ Two invocation modes:
 - Never `git commit`. Parent owns commits.
 - Never `git push`. Parent owns pushing.
 - Never modify the plan file. Read-only. Never stage or commit it.
-- Only invoke `@explore` subagents for parallel footprint mapping. Never invoke other subagent types. Parent orchestrates everything else.
+- Never invoke subagents. Parent orchestrates all parallelism.
 - If a slice can't be built as specified → stop, report blocker, do not improvise.
 - Tests + typecheck must pass before reporting done. If they fail and you can't fix them → report failure, do not hide it.
 - No new dependencies without flagging in report.

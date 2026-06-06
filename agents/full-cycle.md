@@ -45,8 +45,16 @@ git checkout -b cp/<TICKET>/<short-slug>
 ### 3. Per-slice loop
 For each PR-slice in plan, in order:
 
+#### Pre-3a. Parallel footprint exploration (parent)
+Before calling `@implementer`, fan out 2–3 `@explore` subagents in parallel:
+- One per likely module boundary the slice touches
+- Each scoped to a subdirectory or domain area
+- Pass the slice scope from the plan so explorers know what to look for
+
+Wait for all results. Aggregate file list. Pass the footprint to `@implementer` as context.
+
 #### 3a. Implement → `@implementer`
-Pass: slice number, `plans/<ticket-key>.md` path. Subagent writes code, runs tests/typecheck, stages files, returns diff stat + test results. **Save its `task_id`** — needed for fix mode.
+Pass: slice number, `plans/<ticket-key>.md` path, **plus pre-computed footprint from parallel exploration**. Subagent writes code, runs tests/typecheck, stages files, returns diff stat + test results. **Save its `task_id`** — needed for fix mode.
 
 #### 3b. Docs → `@docs-writer`
 Run on staged diff. New public API only.
@@ -108,6 +116,8 @@ After humans review the PR, invoke `@review-applier`. Subagent reads all PR revi
 | Step | Agent | Mode | Edits? |
 |---|---|---|---|
 | Plan | `@ticket-planner` | sequential | yes (plan file) |
+| Plan critique | `@plan-critic` | sequential | no |
+| Footprint | `@explore` × 2–3 | parallel | no |
 | Code | `@implementer` | sequential per slice | yes |
 | Docs | `@docs-writer` | after each slice | yes (inline docs) |
 | Standards review | `@standards-reviewer` | parallel | no |
