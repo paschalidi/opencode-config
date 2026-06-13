@@ -52,6 +52,22 @@
         "JIRA_USERNAME": "christos.paschalidis@numan.com",
         "JIRA_API_TOKEN": "${JIRA_PERSONAL_TOKEN}"
       }
+    },
+    "mcp-obsidian": {
+      "type": "local",
+      "command": [
+        "uv",
+        "--directory",
+        "/Users/christos/dev/mcp-obsidian",
+        "run",
+        "mcp-obsidian"
+      ],
+      "enabled": true,
+      "environment": {
+        "OBSIDIAN_API_KEY": "81521bc93070b19c3e7b716d2f661a6fb475e09f6b59cc448705f2c670fdabd1",
+        "OBSIDIAN_HOST": "127.0.0.1",
+        "OBSIDIAN_PORT": "27124"
+      }
     }
   },
   "permission": {
