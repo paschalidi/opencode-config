@@ -31,26 +31,6 @@
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GH_PERSONAL_TOKEN}"
       }
     },
-    "filesystem": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/Users/paschalidi",
-        "/Users/paschalidi/workspace"
-      ],
-      "enabled": true
-    },
-    "vercel": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@modelcontextprotocol/server-vercel"
-      ],
-      "enabled": true
-    },
     "context7": {
       "type": "local",
       "command": [
