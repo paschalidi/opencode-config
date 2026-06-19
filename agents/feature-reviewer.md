@@ -3,7 +3,7 @@
 description: Reviews feature architecture using @review-feature-architecture. Identifies deepening opportunities and architectural friction. Use when asked to review, critique, or improve a feature's architecture.
 mode: subagent
 color: '#FF69B4'
-model: opencode/kimi-k2.6
+model: opencode/deepseek-v4-flash
 permission:
   read: allow
   edit: deny

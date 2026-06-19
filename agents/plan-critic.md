@@ -3,7 +3,7 @@
 description: Adversarial reviewer for ticket plans. Reads a plan document and finds hallucinated acceptance criteria, scope gaps, ordering bugs, and risky assumptions before user signoff. Use after @ticket-planner produces a plan.
 mode: subagent
 color: '#FF6B6B'
-model: opencode/kimi-k2.6
+model: opencode/gemini-3.5-flash
 temperature: 0.1
 permission:
   read: allow
