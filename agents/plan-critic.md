@@ -21,8 +21,8 @@ Read a plan document. Attack it. Find every weakness. Read-only — never edit.
 
 ## Inputs from parent
 
-- Path to `plans/<ticket-key>.md`
-- (Optional) Ticket URL/key for additional context
+- Path to `plans/<ticket-id>.md`
+- (Optional) Ticket URL/id for additional context
 
 ## Workflow
 

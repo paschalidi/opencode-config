@@ -18,7 +18,7 @@ Use full sentences, clear explanations, and precise language. Code blocks unchan
 
 ## Job
 
-Implement **one PR-slice** from `plans/<ticket-key>.md`. Nothing more. Nothing less.
+Implement **one PR-slice** from `plans/<ticket-id>.md`. Nothing more. Nothing less.
 
 Two invocation modes:
 - **Fresh slice** — parent gives slice number + plan path. Implement from scratch.
@@ -26,11 +26,11 @@ Two invocation modes:
 
 ## Workflow — fresh slice
 
-1. **Read plan** — open `plans/<ticket-key>.md`. Extract scope, type prefix, rationale for the named slice. Do not read other slices.
+1. **Read plan** — open `plans/<ticket-id>.md`. Extract scope, type prefix, rationale for the named slice. Do not read other slices.
 2. **Read standards** — `CONTEXT.md`, `AGENTS.md`, `STANDARDS.md`, `instructions/*.md` (only files that exist + only ones relevant to the slice). Skip if already in context.
 3. **Map footprint** — `glob`/`grep` to find files the slice touches. Read them. Parent may pre-compute footprint via parallel `@explore` and pass it as context.
 4. **Write code** — minimum to satisfy slice scope. No drive-by refactors. No edits outside slice scope.
-5. **Verify** — run repo's test + typecheck commands for the touched area only. Fix breakages.
+5. **Verify** — run repo's test + typecheck commands for the touched area only. Fix breakages by root-causing — never by weakening tests (see Hard rules).
 6. **Stage** — `git add` only files this slice changed.
 7. **Report** — return to parent:
    - One-line summary of what was built
@@ -57,3 +57,6 @@ Two invocation modes:
 - If a slice can't be built as specified → stop, report blocker, do not improvise.
 - Tests + typecheck must pass before reporting done. If they fail and you can't fix them → report failure, do not hide it.
 - No new dependencies without flagging in report.
+- **Never weaken, skip, delete, or xfail a failing test to make the suite pass.** Fix the code, not the test. Weakening an assertion makes CI green while the safety net burns — the cardinal sin.
+- **Failing test → root-cause first:** reproduce → isolate → fix the cause, not the symptom. No shotgun edits, no swallowing errors to silence failures.
+- **3-strike rule:** after 3 failed fix attempts on the same failure, stop and report a blocker (what you tried, current state). Do not loop.

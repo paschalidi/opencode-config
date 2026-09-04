@@ -35,9 +35,9 @@ This skill is _informed_ by the project's domain model. The domain language give
 Ask the user which feature to review if not already clear. A feature is identified by one or more of:
 
 - A directory or set of files ("the `patient_comms` app")
-- A ticket or epic name ("OPH-336")
+- A ticket or epic name ("Add payment methods", "336")
 - A domain concept ("the action request resolution flow")
-- A recent branch or PR ("the work on `cp/OPH-336/...`")
+- A recent branch or PR ("the work on `cp/336/...`")
 
 Once identified, **map the feature's footprint**: find every file, module, and cross-app touchpoint that belongs to it. Present a short summary back to the user: _"Here's what I see as the feature boundary — does this look right, or should I include/exclude anything?"_ Wait for confirmation before proceeding.
 

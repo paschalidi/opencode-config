@@ -25,8 +25,8 @@ Inspired by Matt Pocock's two-axis review. This is the **Spec** axis only. Stand
 
 - Diff command (e.g. `git diff --cached` or `git diff <base>...HEAD`)
 - Spec source — one of:
-  - Path to `plans/<ticket-key>.md`
-  - Ticket URL/key (fetch via webfetch or jira tools)
+  - Path to `plans/<ticket-id>.md`
+  - Ticket URL/id (fetch via webfetch or tracker tools)
   - Inline spec text
   - Slice number + plan path → review only that slice's scope
 

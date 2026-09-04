@@ -52,7 +52,7 @@ Create governing principles for all subsequent work. File: `.specify/memory/cons
 
 Create functional specification. What + why. Not how.
 
-- If user provides ticket URL/key → fetch via Jira MCP. Extract: goal, AC, scope, edge cases
+- If user provides ticket URL/id → fetch via tracker MCP. Extract: goal, AC, scope, edge cases
 - Else → user describes feature in natural language
 - Create branch: `cp/speckit/<kebab-case-description>` from current HEAD or user-specified base
 - Generate `specs/<branch>/spec.md` with:
@@ -214,7 +214,7 @@ Push current branch. Open draft PR vs base. `review` label. Done.
 - PR always draft, `review` label, base = user-specified.
 - **Never commit spec/plan/task files.** `specs/` and `.specify/` stay local, untracked. Verify `.gitignore` excludes them.
 - **Every commit uses Conventional Commits.** No exceptions.
-- **Branch name always `cp/speckit/<kebab-case-slug>` for new features.** Or `cp/<TICKET>/<slug>` if ticket exists.
+- **Branch name always `cp/speckit/<kebab-case-slug>` for new features.** Or `cp/<ticket-id>/<slug>` if a ticket id exists.
 - Constitution is global. Specs are per-branch. Plans/tasks are per-spec.
 - When in doubt, consult `.specify/memory/constitution.md` as supreme authority.
 

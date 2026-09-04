@@ -8,7 +8,7 @@ description: Read a ticket, stress-test the plan via @grill-me, and write a plan
 ## Pipeline
 
 ### 1. Read ticket
-- Fetch ticket via Jira MCP or parse provided URL/key.
+- Fetch ticket via tracker MCP or parse provided URL/id.
 - Summarize: goal, acceptance criteria, scope, linked PRs, comments.
 - Confirm summary with user before proceeding.
 
@@ -24,7 +24,7 @@ description: Read a ticket, stress-test the plan via @grill-me, and write a plan
 - Do not proceed to code until user signs off.
 
 ### 4. Write plan document
-- Write plan to `plans/<ticket-key>.md`.
+- Write plan to `plans/<ticket-id>.md`.
 - Split work into PR-sized slices (one slice = one commit).
 - Each slice must have: goal, files touched, test strategy, rollback plan.
 - Include acceptance criteria checklist at end.

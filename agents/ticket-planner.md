@@ -21,11 +21,11 @@ Abbreviate (DB/auth/config/req/res/fn/impl). Strip conjunctions. Arrows for caus
 
 2. **Grill the plan** — use `@grill-me` to interview the user about the approach. Walk decision branches one at a time. Recommend answers. Explore codebase to resolve questions where possible.
 
-3. **Write plan to file** — save to `plans/<ticket-key>.md`. Structure:
+3. **Write plan to file** — save to `plans/<ticket-id>.md`. Structure:
    - **Ticket** — link + summary
    - **Goal** — one-liner
    - **Approach** — key decisions, rationale, architecture notes
-   - **PR breakdown** — numbered list, each with:
+   - **PR breakdown** — checklist, one `- [ ]` per PR-slice, each with:
      - Scope: what changes per PR
      - Rationale: why this split
      - Type: `feat:`, `fix:`, `refactor:`, `chore:`, etc.

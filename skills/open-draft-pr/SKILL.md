@@ -10,7 +10,7 @@ Goal: from the current branch, commit + push staged work and open a **draft** PR
 ## Inputs to confirm with the user (only if missing)
 
 1. **Base branch** for the PR (e.g. `main` or another feature branch for stacked PRs).
-2. **Ticket key** (e.g. `OPH-183`) — usually parseable from the current branch name `cp/<TICKET>/<slug>`.
+2. **Ticket key** (optional) — parse from the current branch name `cp/<ticket-id>/<slug>` when present. Trackers use plain ids (`1234`) or no key at all; if none, omit the key from the title.
 3. **Scope** for the conventional-commit prefix (e.g. `action-requests`) — infer from changed paths; confirm only if ambiguous.
 
 Do **not** ask about anything else. Keep the body minimal.
@@ -23,7 +23,7 @@ Do **not** ask about anything else. Keep the body minimal.
    - `gh pr list --head <base-branch> --json number,title,url,baseRefName,headRefName` to find the parent PR for stacked references
 2. **Read templates / standards** — `.github/pull_request_template.md`, `README.md`, `STANDARDS.md`, `AGENTS.md` (only if not already read this session).
 3. **Derive the PR title** in the form:
-   `<type>(<scope>): <TICKET> – <short imperative summary>`
+   `<type>(<scope>): <short imperative summary>` — prefix with `<ticket-id> – ` only when a ticket key exists
    - `<type>`: `feat` / `fix` / `chore` / `refactor` / `test` / `docs` / `perf` / `build` / `ci`.
    - Use an en-dash (`–`), matching existing repo style.
    - Summary: imperative, lower-case, no trailing period.
@@ -49,7 +49,7 @@ Do **not** ask about anything else. Keep the body minimal.
 - PR is **always** draft.
 - PR always has the `review` label on it
 - Base branch is **exactly** the one the user specified — never default to `main` when a base is given.
-- Title **must** follow Conventional Commits and include the ticket key. No exceptions.
+- Title **must** follow Conventional Commits and include the ticket key when one exists. No exceptions.
 - Body must be short — no fluff, no marketing, no restating the diff line-by-line.
 - Never push to or modify the base branch. Never amend or rebase without being asked.
 - Never run `git add`; only commit what the user already staged.

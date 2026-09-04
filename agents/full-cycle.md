@@ -22,10 +22,12 @@ You orchestrate. Subagents do the work. Keep your context thin.
 ## Pipeline
 
 ### 1. Read ticket
-User gives ticket URL/key + base branch. Fetch. Summarize: goal, AC, scope. Confirm with user.
+User gives ticket URL/id + base branch. Fetch. Summarize: goal, AC, scope. Confirm with user.
+Derive **ticket-id**: tracker key if one exists (e.g. `1234`, `ABC-123`), else kebab-case slug from the ticket title (e.g. `add-list-endpoint`). Used for plan filename, branch name, commit titles.
 
 ### 2. Plan + grill → `@ticket-planner`
-Invoke. Subagent grills via `@grill-me`, writes `plans/<ticket-key>.md`.
+Invoke. Subagent grills via `@grill-me`, writes `plans/<ticket-id>.md`.
+**Resume mode:** if the plan already exists with ticked `- [x]` slices → skip planning, confirm remaining unticked slices with user, jump straight to 3a on the first unticked slice.
 
 ### 2b. Adversarial review → `@plan-critic`
 Invoke. Subagent reads the plan, finds assumptions, scope gaps, ordering issues, scope creep, and risk. **Do not skip.** Present report to user. User decides: accept / fix plan / override.
@@ -33,12 +35,12 @@ Invoke. Subagent reads the plan, finds assumptions, scope gaps, ordering issues,
 ### 2c. User signoff
 User navigates child session, returns when plan signed off.
 
-### 2b. Create branch
+### 2d. Create branch
 ```bash
-git checkout -b cp/<TICKET>/<short-slug>
+git checkout -b cp/<ticket-id>/<short-slug>
 ```
-- Pattern: `cp/<TICKET>/<kebab-case-description>`
-- Examples: `cp/OPH-183/add-list-endpoint`, `cp/OPH-42/fix-race-condition`
+- Pattern: `cp/<ticket-id>/<kebab-case-description>` — when ticket-id is already a title slug, use `cp/<short-slug>` alone
+- Examples: `cp/1234/add-list-endpoint` (keyed tracker), `cp/add-list-endpoint` (keyless)
 - Always from base branch user specified in step 1.
 - Verify `.gitignore` excludes `plans/` directory. If not, add it. Never let plan files leak into commits.
 
@@ -54,7 +56,7 @@ Before calling `@implementer`, fan out 2–3 `@explore` subagents in parallel:
 Wait for all results. Aggregate file list. Pass the footprint to `@implementer` as context.
 
 #### 3a. Implement → `@implementer`
-Pass: slice number, `plans/<ticket-key>.md` path, **plus pre-computed footprint from parallel exploration**. Subagent writes code, runs tests/typecheck, stages files, returns diff stat + test results. **Save its `task_id`** — needed for fix mode.
+Pass: slice number, `plans/<ticket-id>.md` path, **plus pre-computed footprint from parallel exploration**. Subagent writes code, runs tests/typecheck, stages files, returns diff stat + test results. **Save its `task_id`** — needed for fix mode.
 
 #### 3b. Docs → `@docs-writer`
 Run on staged diff. New public API only.
@@ -66,7 +68,7 @@ Run on staged diff. New public API only.
 #### 3d. Parallel review fan-out
 **Single message, two Task calls:**
 - `@standards-reviewer` — pass diff command + standards file list.
-- `@spec-reviewer` — pass diff command + slice number + `plans/<ticket-key>.md`.
+- `@spec-reviewer` — pass diff command + slice number + `plans/<ticket-id>.md`.
 
 Run truly in parallel.
 
@@ -81,13 +83,16 @@ Resume `@implementer` with saved `task_id`. Pass selected findings as authoritat
 Re-run **3d–3e** on the updated diff. Loop until user says proceed.
 
 #### 3g. Commit slice
-Conventional Commits per plan's `type` for that slice. Title: `<type>(<scope>): <TICKET> – <imperative>`. Commit only staged files. Never `git add`.
+Conventional Commits per plan's `type` for that slice. Title: `<type>(<scope>): <imperative>` — prefix with `<ticket-id> – ` only when the tracker has a real key. Commit only staged files. Never `git add`. Tick the slice's checkbox in `plans/<ticket-id>.md` — the progress record for crash-resume.
 
 #### 3h. Next slice
 Ask user. Then back to 3a.
 
 ### 4. End-of-cycle architecture pass → `@feature-reviewer`
 After last slice committed. Optional but default-on. User navigates child session. Pick deepening candidates. Apply fixes via `@implementer` (fix mode, new task_id since architecture scope > slice scope). Commit each fix.
+
+### 4b. QA pass → `@qa-verifier`
+After architecture pass. Orchestrator asks user for target URL (local dev or staging). If none available, user may explicitly skip. Otherwise invoke `@qa-verifier` with plan path, target URL, and merged slice summaries. Fresh task, read-only. Print report verbatim under `## QA`. One-line summary: totals per severity (blocker/major/minor). Then user gate: proceed / fix all / fix subset / reject — same options as 3e. Fixes via `@implementer` resume `task_id` from the last slice, then **re-run QA** on updated state. Loop until user says proceed.
 
 ### 5. Open draft PR → `@open-draft-pr` skill
 Push current branch. Open draft PR vs base from step 1. `review` label. Done.
@@ -107,9 +112,12 @@ After humans review the PR, invoke `@review-applier`. Subagent reads all PR revi
 - Subagents are ephemeral. Don't accumulate their context in parent — only keep diffs + decisions.
 - For `@implementer` fix mode → resume same `task_id`. For fresh slice → new task.
 - For reviewers → always fresh task. Read-only by design.
-- **Every commit in this pipeline uses Conventional Commits. No exceptions.** Slice commits, fix commits, review-fix commits, doc commits — all `<type>(<scope>): <TICKET> – <imperative>`.
-- **Branch name always `cp/<TICKET>/<kebab-case-slug>`.** No exceptions. Created from user-specified base branch.
-- **Never commit plan files.** `plans/<ticket-key>.md` stays local, unstaged, untracked. If `git add` touches it, drop from index immediately.
+- **Every commit in this pipeline uses Conventional Commits. No exceptions.** Slice commits, fix commits, review-fix commits, doc commits — all `<type>(<scope>): <imperative>`, prefixed `<type>(<scope>): <ticket-id> – ` when a ticket key exists.
+- **Branch name always `cp/<ticket-id>/<kebab-case-slug>`** — or `cp/<slug>` when ticket-id is a slug. No exceptions. Created from user-specified base branch.
+- **Never commit plan files.** `plans/<ticket-id>.md` stays local, unstaged, untracked. If `git add` touches it, drop from index immediately.
+- **Progress lives in the plan**: parent ticks each slice's `- [ ]` → `- [x]` immediately after its commit. Unticked = not done = the resume point. Never pre-tick, never let subagents tick.
+- Never skip the user gate after QA findings. QA is skippable only with explicit user consent (no test target).
+- QA artifacts (screenshots under plans/qa/) are never committed.
 
 ## Subagent map
 
@@ -123,5 +131,6 @@ After humans review the PR, invoke `@review-applier`. Subagent reads all PR revi
 | Standards review | `@standards-reviewer` | parallel | no |
 | Spec review | `@spec-reviewer` | parallel | no |
 | Architecture | `@feature-reviewer` | end-of-cycle | no |
+| QA | `@qa-verifier` | end-of-cycle | no |
 | Open PR | `@open-draft-pr` skill | terminal | yes (commits + push) |
 | Apply review | `@review-applier` | post-PR | yes (commits) |
