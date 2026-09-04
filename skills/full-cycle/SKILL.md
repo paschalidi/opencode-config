@@ -38,8 +38,11 @@ After last slice. Default on, optional. User picks deepening fixes. `@implemente
 ### 4b. QA pass → `@qa-verifier`
 After architecture pass. Orchestrator asks user for target URL. If none, user explicitly skips. Otherwise invoke `@qa-verifier` (fresh task, read-only). Print report verbatim under `## QA`. One-line summary: totals per severity. User gate: proceed / fix all / fix subset / reject. Fixes via `@implementer` resume `task_id` from last slice, then re-run QA. Loop until user says proceed.
 
-### 5. Open draft PR → `@open-draft-pr` skill
-Push. Draft PR vs base from step 1. `review` label.
+### 5a. Pre-push evidence (parent)
+Run full suite + typecheck once on the committed state. Append `## Evidence` (command, exit code, date) to `plans/<ticket-id>.md`. Failures → never push; fix first, re-run.
+
+### 5b. Open draft PR → `@open-draft-pr` skill
+Push. Draft PR vs base from step 1. `review` label. PR body cites the Evidence summary.
 
 ### 6. Apply human review → `@review-applier`
 After PR gets review comments. Subagent applies every comment as one commit (title only), 👍 each. No comment left behind.
@@ -58,6 +61,7 @@ After PR gets review comments. Subagent applies every comment as one commit (tit
 - **Branch name always `cp/<ticket-id>/<kebab-case-slug>`** — or `cp/<slug>` when ticket-id is a slug. No exceptions.
 - **Never commit plan files.** `plans/<ticket-id>.md` stays local, unstaged, untracked.
 - **Progress lives in the plan**: parent ticks each slice's checkbox right after its commit. Unticked = not done = the resume point. Never pre-tick.
+- **Never push red** — full suite + typecheck pass recorded in the plan's `## Evidence` section before any push.
 - Never skip the user gate after QA findings. QA is skippable only with explicit user consent (no test target).
 - QA artifacts (screenshots under plans/qa/) are never committed.
 

@@ -64,14 +64,40 @@
       ],
       "enabled": true,
       "environment": {
-        "OBSIDIAN_API_KEY": "81521bc93070b19c3e7b716d2f661a6fb475e09f6b59cc448705f2c670fdabd1",
+        "OBSIDIAN_API_KEY": "${OBSIDIAN_API_KEY}",
         "OBSIDIAN_HOST": "127.0.0.1",
         "OBSIDIAN_PORT": "27124"
       }
     }
   },
   "permission": {
-    "edit": "allow",
-    "bash": "allow"
+    "bash": {
+      "*": "allow",
+      "git push --force*": "deny",
+      "git push -f*": "deny",
+      "git push --force-with-lease*": "allow",
+      "rm -rf *": "ask",
+      "rm -fr *": "ask",
+      "sudo *": "ask",
+      "git reset --hard*": "ask",
+      "git clean *": "ask",
+      "chmod -R *": "ask",
+      "chown *": "ask",
+      "dd *": "deny",
+      "mkfs*": "deny",
+      "gh pr merge *": "ask"
+    },
+    "edit": {
+      "*": "allow",
+      ".env*": "deny",
+      "*.env": "deny",
+      ".git/**": "deny"
+    },
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.example": "allow"
+    }
   }
 }
