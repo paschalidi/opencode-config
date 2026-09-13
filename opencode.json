@@ -44,19 +44,6 @@
       ],
       "enabled": true
     },
-    "jira": {
-      "type": "local",
-      "command": [
-        "uvx",
-        "mcp-atlassian"
-      ],
-      "enabled": true,
-      "environment": {
-        "JIRA_URL": "https://numan.atlassian.net",
-        "JIRA_USERNAME": "christos.paschalidis@numan.com",
-        "JIRA_API_TOKEN": "${JIRA_PERSONAL_TOKEN}"
-      }
-    },
     "mcp-obsidian": {
       "type": "local",
       "command": [
