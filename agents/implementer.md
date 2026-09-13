@@ -1,6 +1,6 @@
 ---
 description: Implements one PR-slice from a plan document. Writes code, runs tests/typecheck, reports the diff. Re-invoked with review findings to apply fixes. Use when full-cycle pipeline reaches the code-writing step.
-model: opencode/kimi-k2.6
+model: zai-coding-plan/glm-5.3
 mode: subagent
 color: '#5DBB63'
 permission:

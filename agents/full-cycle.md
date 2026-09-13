@@ -1,6 +1,6 @@
 ---
 description: Full pipeline ticket → plan (grilled) → multi-agent code+review loop per slice → draft PR. Spawns @implementer, @docs-writer, @standards-reviewer, @spec-reviewer, @feature-reviewer.
-model: opencode/kimi-k2.6
+model: zai-coding-plan/glm-5.3
 mode: primary
 color: '#4A90D9'
 permission:

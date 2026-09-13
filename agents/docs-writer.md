@@ -3,7 +3,7 @@
 description: Adds JSDoc/Python docstrings to new public code detected via git diff. Skips private functions. Edits inline. Use when you've written new code and need docs.
 mode: subagent
 color: '#D4D4D4'
-model: opencode/kimi-k2.6
+model: zai-coding-plan/glm-5.3
 temperature: 0.3
 permission:
   read: allow

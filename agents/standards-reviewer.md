@@ -3,7 +3,7 @@
 description: Reviews a staged diff against the repo's documented coding standards (CONTEXT.md, AGENTS.md, STANDARDS.md, ADRs, instructions/). Read-only. Runs in parallel with @spec-reviewer. Use when full-cycle pipeline reaches the review step.
 mode: subagent
 color: '#E07B00'
-model: zai-coding-plan/glm-5.3-flash
+model: zai-coding-plan/glm-5.3
 temperature: 0.2
 permission:
   read: allow

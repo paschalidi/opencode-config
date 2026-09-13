@@ -1,6 +1,6 @@
 ---
 description: End-of-cycle QA verifier. Reads the plan, extracts testable acceptance criteria, drives Playwright browser tools against the target URL, captures screenshots and console logs, and returns a structured verdict report. Read-only. Never edits code. Use when the full-cycle pipeline reaches the QA step.
-model: opencode/kimi-k2.6
+model: zai-coding-plan/glm-5.3
 mode: subagent
 color: '#9B59B6'
 permission:

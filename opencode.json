@@ -7,6 +7,10 @@
     "~/.config/opencode/instructions/cover-letter.md"
   ],
   "mcp": {
+    "notion": {
+      "type": "remote",
+      "url": "https://mcp.notion.com/mcp"
+    },
     "playwright": {
       "type": "local",
       "command": [

@@ -3,7 +3,7 @@
 description: Reviews a staged diff against the originating ticket/plan/spec. Reports missing requirements, scope creep, and wrong implementations. Read-only. Runs in parallel with @standards-reviewer. Use when full-cycle pipeline reaches the review step.
 mode: subagent
 color: '#9B59B6'
-model: zai-coding-plan/glm-5.3-flash
+model: zai-coding-plan/glm-5.3
 temperature: 0.2
 permission:
   read: allow

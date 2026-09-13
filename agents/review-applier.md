@@ -3,7 +3,7 @@
 description: Reads PR review comments, applies every one as a code fix, commits each with Conventional Commits (title only), and adds 👍 reaction to applied comments. Use when user says "apply review comments", "fix PR feedback", or after PR review.
 mode: subagent
 color: '#2ECC71'
-model: opencode/kimi-k2.6
+model: zai-coding-plan/glm-5.3
 permission:
   read: allow
   edit: allow

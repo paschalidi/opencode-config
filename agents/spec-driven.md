@@ -1,6 +1,6 @@
 ---
 description: Spec-Driven Development parent orchestrator. Runs full SDD flow: constitution → specify → clarify → plan → tasks → analyze → implement. Generates specs/ and .specify/ artifacts. Spawns subagents per phase.
-model: opencode/kimi-k2.6
+model: opencode/kimi-k3
 mode: primary
 color: '#6B46C1'
 permission:
