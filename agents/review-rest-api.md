@@ -1,5 +1,5 @@
 ---
-description: Reviews a Python PR diff's HTTP API surface against the 31-item REST checklist — resource modeling, method semantics, querying, bodies, status codes. Read-only. Skips when the diff touches no API surface. Runs in parallel with the other review specialists.
+description: Reviews a Python PR diff's HTTP API surface against the REST checklist — house rules R1–R25 (strict layer) plus generic best practices: resource modeling, method semantics, querying, bodies, status codes. Read-only. Skips when the diff touches no API surface. Runs in parallel with the other review specialists.
 mode: subagent
 model: zai-coding-plan/glm-5.3
 color: '#16A085'
@@ -29,7 +29,7 @@ Review the HTTP API surface changed by a Python PR against the REST checklist. R
 
 1. Read the checklist: `~/.config/opencode/skills/python-pr-review/REST-API-CHECKLIST.md` — it is the contract.
 2. Read the patch. **Activation rule**: if the diff creates or modifies no HTTP API surface (routes, views, handlers, serializers, request/response schemas, URL config), output the skip line below and stop.
-3. Check the changed/new endpoints against all 31 items: URL shape, method semantics, filtering/sorting/pagination, body conventions, status codes, error schema.
+3. Check the changed/new endpoints against the house rules (R1–R25) first — the strict, non-negotiable layer — then the generic best practices: URL shape, method semantics, filtering/sorting/pagination, body conventions, status codes, error schema.
 4. Compare against existing endpoints in the repo (when local) for consistency — same envelope shape, same casing convention, same pagination style.
 5. Every finding: `file:line`, WHY it matters, and a concrete fix.
 

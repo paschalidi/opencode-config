@@ -47,6 +47,36 @@ Two invocation modes:
 4. **Re-stage** — `git add` patched files.
 5. **Report** — list of findings addressed, any rejected (with reason), updated diff stat.
 
+## Standards to apply while writing code (non-negotiable)
+
+Rules are testable: if you cannot satisfy one, justify why in the slice report. Full checklists live in `~/.config/opencode/skills/python-pr-review/` — `DATA-MODELING-CHECKLIST.md` and `REST-API-CHECKLIST.md` are the strict layers; `PYTHON-CHECKLIST.md` and `TESTING-CHECKLIST.md` are the general standard. The same reviewers that enforce them on PRs will enforce them on your diff.
+
+### Data modeling (DynamoDB repos — highest priority)
+- Snapshot point-in-time fields into event/child records at creation; every denormalized copy on a live record gets a documented re-sync path + repair/backfill story (D1, D5)
+- No speculative item collections; no hand-rolled index/cache tables; no unbounded embedded lists — child tables for 1:N; TTL on ephemeral items; PAY_PER_REQUEST for new tables (D3, D4, D6, D7, D16, D17)
+- Cross-domain writes only via the owning domain's SDK write module — never direct `ddb_put` into another domain's table (D15)
+- Independent cross-table fetches in parallel via `multi_thread` (comment real dependencies); `attributes=[...]` projections on fan-out reads; cached getters for reference data; batch for >10 keys (D8–D11)
+- Client lists: `ddb_query_page` + signed cursors + ownership validation; never expose raw `LastEvaluatedKey` (D12)
+- `ddb_set` over `ddb_update` (conditional/atomic ops are the only exception); `consistent=True` when snapshotting related records at write time; never raw boto3 in a lambda (D13, D14)
+- Stream-triggered denormalizations wire failure handling to the existing retry paths — never fire-and-forget; assume 1-2s index lag on read-after-write (D18, D19)
+
+### API surface (when writing endpoints)
+- Nouns in URLs, IDs in path, lowercase-hyphenated, ≤2 nesting levels, version in path, additive-only within a version (R1–R6)
+- GET read-only with zero side effects; reads always GET; correct DELETE/PATCH/PUT/POST; one route one method; no `save` create/update conflation (R7–R11)
+- Every list endpoint paginated with signed cursors; one envelope `{items, nextCursor}`; honest status codes (never 200 with an error body); `{code, message, details?}` error schema; ISO 8601 UTC dates; `[]` for empty collections (R12–R20)
+- Object-level authz on every endpoint (entity belongs to caller's team); no secrets/PII in URLs; slow work async (202 + job resource), nothing held open near gateway timeouts (R21–R24)
+
+### Python (always)
+- No mutable default args; `is None` not `== None`; narrow excepts, never swallow; context managers for resources; explicit timeouts on network calls
+- Timezone-aware datetimes (never naive `utcnow`); `Decimal` for money; no float equality; `time.monotonic()` for durations
+- f-strings in ALL log messages; `logger.exception` in exception handlers; no PII in logs
+- stdlib over reinvention (`itertools`, `functools`, `pathlib`); no print/pdb/commented-out code left behind
+- Type hints: match the file — untyped file, don't add them; typed file, type them correctly
+
+### Tests (every slice that changes logic)
+- Behavior tested at the lowest layer where it lives; factories for DB records, builders for external API responses; mocks only at network boundaries
+- Permission tests (denied + allowed) for new endpoints/services; edge cases parametrized; test names describe behavior
+
 ## Hard rules
 
 - One slice per invocation. Never bleed scope.

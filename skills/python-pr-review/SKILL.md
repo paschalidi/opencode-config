@@ -5,14 +5,15 @@ description: Review a Python GitHub PR across four specialist axes — Python lo
 
 # Python PR Review
 
-Multi-axis Python PR review, adapted from the mcp-review server (https://github.com/paschalidi/mcp-review). A primary orchestrator (`@python-pr-review`) fans out four read-only specialist subagents in parallel, each enforcing one checklist, then merges their findings into a single PENDING GitHub review that the human reviews and submits.
+Multi-axis Python PR review, adapted from the mcp-review server (https://github.com/paschalidi/mcp-review). A primary orchestrator (`@python-pr-review`) fans out five read-only specialist subagents in parallel, each enforcing one checklist, then merges their findings into a single PENDING GitHub review that the human reviews and submits.
 
 ## Checklists (the review contract)
 
 | File | Axis | Subagent |
 |---|---|---|
+| [DATA-MODELING-CHECKLIST.md](DATA-MODELING-CHECKLIST.md) | DynamoDB / multi-table data modeling — house rules D1–D19 (**highest-priority axis**) | `@review-data-modeling` |
 | [PYTHON-CHECKLIST.md](PYTHON-CHECKLIST.md) | Correctness traps, code smells, errors, security, perf, concurrency, conditional typing | `@review-python-logic` |
-| [REST-API-CHECKLIST.md](REST-API-CHECKLIST.md) | HTTP API design — 31 items | `@review-rest-api` |
+| [REST-API-CHECKLIST.md](REST-API-CHECKLIST.md) | HTTP API design — house rules R1–R25 + generic best practices | `@review-rest-api` |
 | [TESTING-CHECKLIST.md](TESTING-CHECKLIST.md) | Test standards, layers, factories, mocks | `@review-python-tests` |
 | [ARCHITECTURE-REVIEW.md](ARCHITECTURE-REVIEW.md) | Module depth, seams, layering, duplication | `@review-python-architecture` |
 
