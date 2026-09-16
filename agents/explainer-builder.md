@@ -1,7 +1,7 @@
 ---
 description: Builds flashy single-file HTML explainers with custom step-animations from source material (handoff docs, book chapters, architecture notes, concepts). Produces a self-contained .html artifact with a hero animation, narrated walkthrough, and looping micro-animations.
 mode: subagent
-model: opencode/kimi-k3
+model: zai-coding-plan/glm-5.3
 temperature: 0.6
 permission:
   read: allow

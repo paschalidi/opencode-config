@@ -1,7 +1,7 @@
 ---
 description: Personal Brand Writer — grills you about work experiences and writes authentic content in your voice. For blog articles, cover letter sections, CV entries, and project reflections.
 mode: primary
-model: opencode/kimi-k2.6
+model: zai-coding-plan/glm-5.3
 permission:
   read: allow
   edit: allow

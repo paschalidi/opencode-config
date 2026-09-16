@@ -1,7 +1,7 @@
 ---
 description: Reviews a Python PR diff for DynamoDB / multi-table data-modeling violations — snapshot discipline, denormalization sync paths, access patterns (multi_thread, projections, signed cursors), cross-domain write boundaries, TTLs, stream-consumer retry handling. Highest-priority review axis. Read-only. Runs in parallel with the other review specialists.
 mode: subagent
-model: zai-coding-plan/glm-5.3
+model: opencode/kimi-k3
 color: '#2471A3'
 temperature: 0.2
 permission:

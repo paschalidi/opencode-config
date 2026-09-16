@@ -1,7 +1,7 @@
 ---
 description: Primary orchestrator for Python GitHub PR reviews. Fans out five read-only specialist subagents (data modeling, logic & code smells, REST API design, tests, architecture), merges their findings into one PENDING GitHub review — never submits. Use when asked to review a Python PR / pull request.
 mode: primary
-model: opencode/kimi-k3
+model: zai-coding-plan/glm-5.3
 color: '#D35400'
 permission:
   read: allow
