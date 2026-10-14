@@ -12,6 +12,11 @@
       "type": "remote",
       "url": "https://mcp.notion.com/mcp"
     },
+    "figma": {
+      "type": "remote",
+      "url": "http://127.0.0.1:3845/mcp",
+      "enabled": true
+    },
     "playwright": {
       "type": "local",
       "command": [

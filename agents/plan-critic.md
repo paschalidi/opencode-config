@@ -8,7 +8,48 @@ temperature: 0.1
 permission:
   read: allow
   edit: deny
-  bash: allow
+  bash:
+    '*': deny
+    'cd *': allow
+    'pwd': allow
+    'ls*': allow
+    'cat *': allow
+    'head *': allow
+    'tail *': allow
+    'wc *': allow
+    'sed -n *': allow
+    'sed *-i*': deny
+    'rg *': allow
+    'grep *': allow
+    'jq *': allow
+    'find *': allow
+    'find *-delete*': deny
+    'find *-exec*': deny
+    'find *-ok*': deny
+    'git diff*': allow
+    'git show*': allow
+    'git log*': allow
+    'git blame*': allow
+    'git grep*': allow
+    'git ls-files*': allow
+    'git rev-parse*': allow
+    'git status*': allow
+    'gh pr view*': allow
+    'gh pr diff*': allow
+    'gh api repos/*': allow
+    'gh api *-X*': deny
+    'gh api *--method*': deny
+    'gh api *-f *': deny
+    'gh api *-F *': deny
+    'gh api *--field*': deny
+    'gh api *--raw-field*': deny
+    'gh api *--input*': deny
+    'get_function_usage *': allow
+  external_directory:
+    '*': ask
+    '/tmp/*': allow
+    '/private/tmp/*': allow
+    '~/.config/opencode/*': allow
   glob: allow
   grep: allow
   list: allow
