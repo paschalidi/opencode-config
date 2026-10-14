@@ -38,20 +38,8 @@ Full reference: `~/.config/opencode/skills/review-feature-architecture/LANGUAGE.
 - [ ] Config/constants sprawled across files instead of one home.
 - [ ] New module contradicting an ADR (`docs/adr/`) → surface as "contradicts ADR-XXXX" — flag it, don't re-litigate.
 
-## System lenses — only when the change map rates impact M or H
-
-Use the change map (callers, entry points, data touched, stream consumers, client callers, siblings) to look past the module at the system. Write each finding as a scenario: **"When X, the system does Y, because Z — so we risk W."** No scenario → no finding.
-
-- [ ] **Placement & dependency direction** — code used by one entry point lives beside it; shared code lives in the shared layer (SourceWhale: one Lambda → beside the Lambda, shared → `backend/sdk`). New imports between sibling Lambdas/apps, or shared code importing from an entry point → flag.
-- [ ] **Data flow end to end** — follow every written field through write → stream consumer → denormalized copy / index → readers. Who owns each copy? How does it get repaired if it drifts? A new field with no reader, or a reader with no writer → flag.
-- [ ] **Failure & consistency** — partial failure midway through a multi-write, stream retries re-delivering the same event (idempotent?), out-of-order events, timeouts (SourceWhale API Gateway: 29s). Name the failure and what state it leaves behind.
-- [ ] **Reversibility** — the change map's door call. One-way doors (new data shape, removed field, public contract change, backend change that frontend/extension must ship with) need a rollout/backfill/rollback story. Missing → flag.
-- [ ] **Sibling consistency** — compare against the change map's siblings: pagination, auth/ownership checks, projection, error shape, retry wiring. Diverging without a reason → flag, citing the sibling.
-- [ ] **End-to-end wiring** — a new route with no client caller, or a client call with no route, means the feature isn't actually connected. Flag as a question, not an issue.
-- [ ] **Cost & scale** — per-item calls in loops over unbounded sets, fan-out that grows with tenants/records, full scans behind user-facing paths.
-
 ## Reporting
 
-For each finding: **files** involved, **problem** (the friction), **solution** (plain English), **benefits** in terms of locality + leverage + how tests would improve. System-lens findings use the scenario sentence as the problem.
+For each finding: **files** involved, **problem** (the friction), **solution** (plain English), **benefits** in terms of locality + leverage + how tests would improve.
 
-Architecture findings default to **Important**; only **Critical** when they create data-loss, security, or correctness risk. Architecture is the axis most prone to taste — every finding must cite the deletion test, shallowness, a layering rule, duplication, or a system-lens scenario. No vague "this could be cleaner".
+Architecture findings default to **Important**; only **Critical** when they create data-loss, security, or correctness risk. Architecture is the axis most prone to taste — every finding must cite the deletion test, shallowness, a layering rule, or duplication. No vague "this could be cleaner".
