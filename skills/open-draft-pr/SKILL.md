@@ -47,7 +47,7 @@ Do **not** ask about anything else. Keep the body minimal.
 ## Hard rules
 
 - PR is **always** draft.
-- PR always has the `review` label on it
+- Never add labels to the PR
 - Base branch is **exactly** the one the user specified — never default to `main` when a base is given.
 - Title **must** follow Conventional Commits and include the ticket key when one exists. No exceptions.
 - Body must be short — no fluff, no marketing, no restating the diff line-by-line.

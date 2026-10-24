@@ -105,7 +105,7 @@ Run the repo's **full** test suite + typecheck once, on the committed state. App
 Failures → **do not push**. Fix via `@implementer` (fix mode), commit, re-run evidence. Pass the summary line to 5b for the PR body.
 
 ### 5b. Open draft PR → `@open-draft-pr` skill
-Push current branch. Open draft PR vs base from step 1. `review` label. PR body's Comments section cites the Evidence summary. Done.
+Push current branch. Open draft PR vs base from step 1. PR body's Comments section cites the Evidence summary. Done.
 
 ### 6. Post-PR: apply human review comments → `@review-applier`
 After humans review the PR, invoke `@review-applier`. Subagent reads all PR review comments, applies each as a separate commit with Conventional Commits title only, and 👍 every applied comment. Leaves zero behind.
@@ -118,7 +118,7 @@ After humans review the PR, invoke `@review-applier`. Subagent reads all PR revi
 - Never `git commit` from inside a subagent — parent owns commits.
 - Never `git push` until step 5.
 - One slice = one commit (plus zero or more fix commits — squash later if user wants).
-- PR always draft, `review` label, base = user-specified.
+- PR always draft, no labels, base = user-specified.
 - Subagents are ephemeral. Don't accumulate their context in parent — only keep diffs + decisions.
 - For `@implementer` fix mode → resume same `task_id`. For fresh slice → new task.
 - For reviewers → always fresh task. Read-only by design.

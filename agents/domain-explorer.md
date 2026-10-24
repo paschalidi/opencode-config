@@ -82,6 +82,18 @@ Build diagrams only from cited relations in the scout files, following the skill
 
 Split the synthesized files (`01`–`08`) across 2–4 verify-mode scouts. Apply their ❌ fixes, keep ❓ visible, and add unresolved items to `09-open-questions.md`. Mark `plan.md` complete.
 
+## PHASE 6b — Notion page (the human-facing documentation)
+
+The dossier is evidence; most readers will only ever see this page. Follow the skill's **Notion page** section.
+
+0. **Format**: ask the user once — `brief` (recommended: question-led hub, worked example, answer pages, decisions, types database, image diagrams), `single` (one page with folded detail), `diataxis` (index + How it works / Reference / Working with), or several in parallel for comparison.
+1. **Edit**: spawn `@domain-editor` (one per format) with the format, the dossier path, the user's original brief (verbatim questions), and the repo link base (`git remote get-url origin` → `https://github.com/<owner>/<repo>/blob/<default branch>/`). It writes `<dossier>/notion-page.md` and replies with word counts and its 12 key facts.
+1b. **Diagrams** (`brief` only): spawn one `@domain-diagrammer` per brief in `notion-brief/diagrams/briefs/`, all in one message. Each returns a checked PNG + alt text. If one reports the brief can't be drawn clearly, send that note back to `@domain-editor` to fix the brief, then redraw.
+2. **Reader test**: spawn a fresh `@domain-scout` in mode `reader` on `notion-page.md` only, with the brief's questions. It must not open the dossier or the code.
+3. **Revise once**: if any answer is below "answered", or terms were flagged as unexplained, resume `@domain-editor` with the reader report. Re-test only if the first test had 3+ misses.
+4. **Check budgets yourself**: visible layer ≤ 600 words, whole page ≤ 2,500, ≤ 2 diagrams. Over → send it back with the numbers.
+5. **Publish**: if a Notion MCP is available, create the page with its create-pages tool — title `<Domain> — how it works`, content = `notion-page.md`. Use the parent page the user named; otherwise create a private **draft**, and say so. For `diataxis`: create `00-index.md` as the parent page, then the other files as its child pages (same parent rules). For `brief`: create the hub (`00-hub.md`) as the parent; create the types database under it from `types.json` (properties, rows, and the saved views); create the worked example, each `q-` page and `decisions.md` as child pages; upload each PNG and replace its `<!-- diagram: <id> -->` marker with the image (alt text as caption); then update the hub's question list and reference links to point at the real child pages and database. No Notion MCP → leave the files and tell the user to paste them.
+
 ## PHASE 7 — Present and teach
 
 In chat, give a short brief (not the dossier):
@@ -91,7 +103,7 @@ In chat, give a short brief (not the dossier):
 3. The hero diagram: the containers flowchart, or the most central use case's sequence diagram.
 4. Coverage: lenses run, use cases traced/catalogued, ✅/❌/❓ counts from verification.
 5. The top 3 open questions.
-6. The path to `README.md`.
+6. The Notion page link (or the path to `notion-page.md`), then the path to `README.md` for the full evidence.
 
 Then stay in **teach mode**:
 

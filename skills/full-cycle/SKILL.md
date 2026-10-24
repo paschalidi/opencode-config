@@ -42,7 +42,7 @@ After architecture pass. Orchestrator asks user for target URL. If none, user ex
 Run full suite + typecheck once on the committed state. Append `## Evidence` (command, exit code, date) to `plans/<ticket-id>.md`. Failures → never push; fix first, re-run.
 
 ### 5b. Open draft PR → `@open-draft-pr` skill
-Push. Draft PR vs base from step 1. `review` label. PR body cites the Evidence summary.
+Push. Draft PR vs base from step 1. PR body cites the Evidence summary.
 
 ### 6. Apply human review → `@review-applier`
 After PR gets review comments. Subagent applies every comment as one commit (title only), 👍 each. No comment left behind.
@@ -55,7 +55,7 @@ After PR gets review comments. Subagent applies every comment as one commit (tit
 - Subagents never `git commit` / `git push`. Parent owns git state changes.
 - Reviewers always fresh task, read-only. `@implementer` resumes `task_id` for fix mode.
 - One slice = one commit (+ optional fix commits).
-- PR always draft, `review` label, base = user-specified.
+- PR always draft, no labels, base = user-specified.
 - `@review-applier` works post-PR, after human review. One comment = one commit. 👍 every applied comment.
 - **Every commit in this pipeline uses Conventional Commits. No exceptions.**
 - **Branch name always `cp/<ticket-id>/<kebab-case-slug>`** — or `cp/<slug>` when ticket-id is a slug. No exceptions.

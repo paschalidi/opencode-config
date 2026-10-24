@@ -168,7 +168,7 @@ Ask user. Back to 6b.
 After last task committed. Optional but default-on. User picks deepening candidates. Apply via `@implementer` (fresh task_id). Commit each.
 
 ### 6d. Open draft PR → `@open-draft-pr` skill
-Push current branch. Open draft PR vs base. `review` label. Done.
+Push current branch. Open draft PR vs base. Done.
 
 ## Artifact structure
 
@@ -211,7 +211,7 @@ Push current branch. Open draft PR vs base. `review` label. Done.
 - Subagents never `git commit` / `git push`. Parent owns git state.
 - Reviewers always fresh task, read-only. `@implementer` resumes `task_id` for fix mode.
 - One task = one commit (+ optional fix commits).
-- PR always draft, `review` label, base = user-specified.
+- PR always draft, no labels, base = user-specified.
 - **Never commit spec/plan/task files.** `specs/` and `.specify/` stay local, untracked. Verify `.gitignore` excludes them.
 - **Every commit uses Conventional Commits.** No exceptions.
 - **Branch name always `cp/speckit/<kebab-case-slug>` for new features.** Or `cp/<ticket-id>/<slug>` if a ticket id exists.

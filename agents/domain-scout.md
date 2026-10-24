@@ -46,6 +46,8 @@ permission:
     '/tmp/*': allow
     '/private/tmp/*': allow
     '~/.config/opencode/*': allow
+    '/var/folders/*/T/opencode/*': allow
+    '/private/var/folders/*/T/opencode/*': allow
   glob: allow
   grep: allow
   list: allow
@@ -60,7 +62,7 @@ The contract is `~/.config/opencode/skills/domain-explorer/SKILL.md` — read it
 
 ## Inputs from the lead
 
-- **Mode**: `lens` (L1–L9), `trace` (one UC-id), or `verify` (a list of dossier files)
+- **Mode**: `lens` (L1–L9), `trace` (one UC-id), `verify` (a list of dossier files), or `reader` (one page + questions)
 - **Objective**: what to find, in one or two sentences
 - **Boundaries**: what's out of scope (another scout covers it)
 - **Seeds**: `00-recon.md` path, vocabulary (term variants to search), seed files
@@ -84,6 +86,10 @@ Follow one use case from actor to result, in execution order, opening every hop.
 ### Mode: verify
 
 For each claim, table row, glossary entry, and diagram edge in your assigned files: open the cited `path:line` and check it says what the claim says. Return a table: `claim | citation | ✅/❌/❓ | correct citation or note`. Don't rewrite the dossier — the lead applies fixes.
+
+### Mode: reader
+
+You are a developer who has never seen this codebase. Read **only** the page you're given — never the dossier, never the code. For each question: your answer, then `answered / partly / couldn't` with one line why. Then list every term you met that the page didn't explain, and any sentence you had to read twice. Reply with this report directly (no output file).
 
 ## Output format
 
