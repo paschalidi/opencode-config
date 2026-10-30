@@ -92,7 +92,7 @@ If parent gave neither → ask once, then proceed.
 ## Standards review
 
 **Hard violations** (N)
-1. `path/to/file.py:42-50` — violates `instructions/python-testing-standards.md` rule "Mock only at external API boundaries". Diff mocks internal `_compute_x`. Fix: extract real boundary or move test to handler layer.
+1. `path/to/file.py:42-50` — violates `instructions/python-testing-standards.md` rule "Choose Test Doubles Deliberately" (never mock own code). Diff mocks internal `_compute_x`. Fix: assert the result through the public interface; double only the unmanaged dependency.
 2. ...
 
 **Judgement calls** (N)

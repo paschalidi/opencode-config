@@ -14,30 +14,43 @@ The target codebase has no test suite. **Missing tests are never a finding.**
 
 ## Coverage — only for tests the PR adds or changes
 
-- [ ] The tests the PR adds exercise the changed branches and edge paths, not just the happy path → suggest the missing cases (non-blocking).
+- [ ] The tests exercise the changed branches and edge paths, not just the happy path → suggest the missing cases (non-blocking).
 
-## Right layer — test at the lowest layer where the behavior lives
+## Survives refactoring — the most important section
 
-- [ ] Model tests verify only DB constraints and Pydantic validation. Nothing else.
-- [ ] Service tests prove **orchestration, not outcomes**: `PermissionDenied` for the right (and wrong) permissions, `NotFoundError` for unknown ids, audit logging called with the right arguments, business-logic function **called** (not what it returned). A service test asserting computed values → flag; it belongs at the handler layer.
-- [ ] Handler tests exercise the **public** `compute()` only — happy path plus all edge cases. Testing private methods → flag.
-- [ ] HTTP tests cover only the four concerns: 401 without auth, permission → status-code mapping, error response shape, one happy-path contract test per endpoint. Computation, filtering, and permission rules re-tested at HTTP layer → flag.
-- [ ] The same logical assertion is not duplicated across layers.
+- [ ] Tests go through a **public interface** (endpoint, service function, handler's public method). Calling private methods or internal helpers → flag.
+- [ ] Tests assert **results or stored state**, not internal calls. `assert_called_*` on your own code → flag (change-detector test). Allowed only when the call is the behaviour: email, message, webhook, external audit event.
+- [ ] A behaviour-preserving refactor (rename, extract, merge functions) would leave the test green. If not → flag and say which refactor breaks it.
 
-## Data & mocks
+## Test doubles
 
-- [ ] DB records via factories (`ItemFactory.create(...)`) — never raw `Model.objects.create(...)` in tests.
-- [ ] External API JSON via builders — never hand-crafted response dicts from scratch.
-- [ ] Domain result objects not hand-built to satisfy a mock — that test belongs at the handler layer.
-- [ ] Mocks only at real network boundaries (shared `mock_all_external_apis`-style fixture as baseline). Internal methods never mocked.
-- [ ] More than ~5 `@patch` decorators on one test → flag: extend the shared fixture instead.
+- [ ] Order of preference: real → fake → stub → mock.
+- [ ] Own code is never mocked. Own database is the real test DB or an in-memory fake, not mocked.
+- [ ] Third-party APIs, email, queues: stubs for queries, mocks only for commands whose side effect is the behaviour; ideally through a thin adapter.
+- [ ] Doubles live in a shared fixture; more than ~3 `@patch` decorators on one test → flag: extend the fixture or move the test.
+- [ ] Clock, randomness and ids are frozen or injected.
 
-## Shape
+## Layer (Django apps)
 
-- [ ] pytest style with plain `assert`.
-- [ ] Variations via `@pytest.mark.parametrize` — no copy-paste tests that change one variable.
-- [ ] Test names describe the scenario and expected outcome (`test_permission_denied_when_user_has_wrong_category`), not the implementation (`test_status_filter`).
+- [ ] Model tests: DB constraints and Pydantic validation only.
+- [ ] Service tests: permissions (denied and allowed), not-found, resulting state, external side effects. Asserting internal calls → flag.
+- [ ] Handler tests: computation scenarios through public `compute()`.
+- [ ] HTTP tests: 401, permission → status mapping, error shape, one happy-path contract test. Business rules re-tested here → flag.
+- [ ] The same assertion is not repeated across layers.
+
+## Readability
+
+- [ ] One behaviour per test; the name states scenario and outcome (`test_permission_denied_when_user_has_wrong_role`), no "and".
+- [ ] Given / When / Then visible (blank lines or comments); no interleaved act/assert.
+- [ ] Straight-line code: no loops, ifs or computed expectations.
+- [ ] Values the assertion depends on appear in the test, not hidden in shared constants or setup.
+- [ ] Factories for DB records, builders for external API payloads — never `Model.objects.create(...)` or hand-crafted API JSON.
+- [ ] `@pytest.mark.parametrize` for variations of one behaviour, with readable `ids`; no copy-paste tests; no mixing different behaviours in one table.
+- [ ] pytest style with plain `assert` on exact values.
 - [ ] File names follow `test_{service_function}.py`.
-- [ ] When the PR tests an endpoint/service function, cover both denied and allowed permission paths.
-- [ ] Edge cases: empty results, invalid inputs (parametrized `""`, invalid, `None`), boundary values.
-- [ ] Tests assert through the public interface, not past it.
+
+## Isolation & edge cases
+
+- [ ] Tests run alone and in any order; no shared mutable state; no real network.
+- [ ] Edge cases: empty results, invalid inputs (`""`, unknown, `None`), boundary values.
+- [ ] New endpoints/services: denied and allowed permission paths.

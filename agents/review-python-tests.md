@@ -1,5 +1,5 @@
 ---
-description: Reviews the tests a Python PR adds or changes (skips when the diff has no tests — missing tests are never flagged) against the personal Python testing standards — lowest-layer placement, factories/builders, mock boundaries, parametrization, behavior-describing names, permission and edge-case coverage. Read-only. Runs in parallel with the other review specialists.
+description: Reviews the tests a Python PR adds or changes (skips when the diff has no tests — missing tests are never flagged) against the personal Python testing standards — public-interface behaviour tests that survive refactoring, results over calls, fakes over mocks (mocks only for unmanaged dependencies), Given/When/Then, factories/builders, parametrization, behaviour names, permission and edge-case coverage. Read-only. Runs in parallel with the other review specialists.
 mode: subagent
 model: zai-coding-plan/glm-5.3
 color: '#F39C12'
@@ -74,7 +74,7 @@ Before evaluating, read `HIGH-SIGNAL.md` and `LEARNINGS.md` (in `~/.config/openc
 
 1. Read the checklist: `~/.config/opencode/skills/python-pr-review/TESTING-CHECKLIST.md` — it is the contract. The full standard it distills: `~/.config/opencode/instructions/python-testing-standards.md` (wins on any conflict).
 2. Read the patch in full, then the context above — including the whole test files and the code under test.
-3. Evaluate: coverage of new/changed logic, right-layer placement (models / services / handlers / http_api), factories vs raw ORM, builders vs hand-crafted dicts, mocks only at external boundaries, parametrization, behavior-describing names, permission tests, edge cases.
+3. Evaluate, most important first: would the tests survive a behaviour-preserving refactor (public interface, results not calls, no mocks of own code or own DB); right layer with no duplicated assertions; test doubles (real → fake → stub → mock, mocks only for unmanaged dependencies); readability (one behaviour per test, Given/When/Then, behaviour names, values visible in the test, factories/builders, parametrize with ids); isolation; permission and edge-case coverage.
 4. **Activation rule** (checklist): no test files in the diff → output the skip line and stop. Tests present → review them and suggest extra cases only for behaviour they already cover. Never flag missing tests; every finding is Important or Nice-to-have, never Critical.
 5. Every finding: `file:line`, WHY it matters, and a concrete fix.
 

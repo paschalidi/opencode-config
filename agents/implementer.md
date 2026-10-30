@@ -74,8 +74,10 @@ Rules are testable: if you cannot satisfy one, justify why in the slice report. 
 - Type hints: match the file — untyped file, don't add them; typed file, type them correctly
 
 ### Tests (every slice that changes logic)
-- Behavior tested at the lowest layer where it lives; factories for DB records, builders for external API responses; mocks only at network boundaries
-- Permission tests (denied + allowed) for new endpoints/services; edge cases parametrized; test names describe behavior
+- Behaviour tested through the public interface at the lowest level that catches it, asserting results/stored state (not internal calls), so a behaviour-preserving refactor keeps tests green
+- Test doubles: real → fake → stub → mock; never mock own code or own DB (use test DB or in-memory fake); mocks only for unmanaged third-party dependencies; factories for DB records, builders for external API payloads
+- One behaviour per test with visible Given / When / Then; values the assertion depends on appear in the test
+- Permission tests (denied + allowed) for new endpoints/services; edge cases parametrized with readable ids; test names describe scenario and outcome
 
 ## Hard rules
 
