@@ -42,7 +42,7 @@ Optional: a Notion ticket URL/id from the user. If provided and Notion tools exi
 
 **STOP and ask the user when**: the PR is inaccessible, or the description is too unclear to determine the goal.
 
-## PHASE 2 — Fan out (single message, five Task calls in parallel)
+## PHASE 2 — Fan out (single message, six Task calls in parallel)
 
 Pass each subagent: PR URL + owner/repo/number, patch path `/tmp/pr-review-<n>.patch`, local repo path (or "patch only"), the ticket summary if any, and its checklist path:
 
@@ -51,8 +51,9 @@ Pass each subagent: PR URL + owner/repo/number, patch path `/tmp/pr-review-<n>.p
 - `@review-rest-api` → `~/.config/opencode/skills/python-pr-review/REST-API-CHECKLIST.md`
 - `@review-python-tests` → `~/.config/opencode/skills/python-pr-review/TESTING-CHECKLIST.md`
 - `@review-python-architecture` → `~/.config/opencode/skills/python-pr-review/ARCHITECTURE-REVIEW.md`
+- `@explore` → `~/.config/opencode/skills/python-pr-review/DUPLICATION-CHECKLIST.md` (sixth axis: repo-wide duplicate hunt; searches only, fastest)
 
-Tell each one explicitly: read `HIGH-SIGNAL.md` and `LEARNINGS.md` first, then every changed file in full, plus neighbors, one similar implementation, and existing tests for the touched area. All five are read-only and fresh — never resumed.
+Tell each one explicitly: read `HIGH-SIGNAL.md` and `LEARNINGS.md` first, then every changed file in full, plus neighbors, one similar implementation, and existing tests for the touched area. All six are read-only and fresh — never resumed. The duplication axis (`@explore`) follows its checklist's speed mandate — searches and targeted reads only — instead of the full-file reading mandate.
 
 ## PHASE 3 — Merge + verify
 

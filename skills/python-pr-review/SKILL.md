@@ -15,7 +15,12 @@ Multi-axis Python PR review, adapted from the mcp-review server (https://github.
 | [PYTHON-CHECKLIST.md](PYTHON-CHECKLIST.md) | Correctness traps, code smells, errors, security, perf, concurrency, conditional typing | `@review-python-logic` |
 | [REST-API-CHECKLIST.md](REST-API-CHECKLIST.md) | HTTP API design — house rules R1–R25 + generic best practices | `@review-rest-api` |
 | [TESTING-CHECKLIST.md](TESTING-CHECKLIST.md) | Test standards, layers, factories, mocks | `@review-python-tests` |
-| [ARCHITECTURE-REVIEW.md](ARCHITECTURE-REVIEW.md) | Module depth, seams, layering, duplication | `@review-python-architecture` |
+| [ARCHITECTURE-REVIEW.md](ARCHITECTURE-REVIEW.md) | Module depth, seams, layering | `@review-python-architecture` |
+| [DUPLICATION-CHECKLIST.md](DUPLICATION-CHECKLIST.md) | Code in the diff that already exists elsewhere | `@explore` |
+
+## Sixth axis — duplication
+
+Fan out alongside the five specialists: `@explore` with `DUPLICATION-CHECKLIST.md`. Read-only, search-driven, fastest axis. The architecture axis stays diff-focused (depth + seams); neighbor sweeps and duplicate hunts belong here.
 
 ## Shared contracts
 
