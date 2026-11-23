@@ -86,6 +86,9 @@ Specialist output is a claim, not a fact. The orchestrator checks each merged fi
    - The issue is introduced or touched by this PR — not pre-existing in untouched code.
    - It isn't excluded by HIGH-SIGNAL.md ("Never flag") or LEARNINGS.md, and any quoted rule matches its source text.
    - Any replacement code matches the exact cited range (same lines, same indentation) and the range is on the RIGHT side of the diff.
+   - **It can happen in the PR's current code.** Trace the path that triggers it, including guards and retry config. If it only appears after the fix you're proposing, present it as something to watch in that fix, not as a current bug.
+   - **The proposed fix works.** If the fix relies on existing behaviour (a retry, a replay, a guard), read that code and its config before saying so.
+   - **Any requirement it relies on is visible to the author.** Cite the ticket or a linked doc. If the requirement is unclear or lives only in a private doc, make it a `question`, not `blocking`.
 3. **Verdict per finding**:
    - **CONFIRMED** → keep.
    - **REJECTED** → drop. List it in chat with a one-line reason.
@@ -121,9 +124,18 @@ Tone — collaborative, never directive:
 
 ### Comment style — short, plain, spaced (always)
 
+Each comment names one problem in simple words, links to the code that proves it, and asks for one specific change.
+
+- **Problem first.** The first line says what's wrong. No background before it.
 - **ELI5.** Plain words. Assume the reader is new to this code. No jargon when a normal word works.
+- **No metaphors or analogies.** Say what the code does: "the lambda has 0 retries", not "this is fragile".
+- **Links instead of description.** Every reference to code or a function is a link pinned to the PR's head commit: `[save_activity](https://github.com/{owner}/{repo}/blob/<head-sha>/path/to/file.py#L10-L20)`. Never a bare `file.py:42`, and don't describe code the reader can click through to.
+- **One concrete failure.** Say when it happens with one real case: "a request with no subject records 'Resume sent' for an email that never queues".
+- **One clear ask.** One "Could we…?". Add a snippet only when it makes the change clearer.
+- **Claim only what you checked.** If you don't know, ask a `question`. Never state an unverified result as fact.
 - **Half-length.** Say one thing, then stop. Target ~4–8 short lines of prose — roughly half a "standard" review comment.
 - **Breathe.** One idea per paragraph, blank line between. Never a wall of text.
+- **Final check.** Could someone new to this code read it once and know what's wrong, when it happens and what to change? If not, simplify it. If so, cut anything that doesn't help answer those three questions.
 - **Show the fix as a GitHub suggestion.** When the fix replaces the commented lines, end the comment with a ` ```suggestion ` block. GitHub renders it as a diff the author can apply with one click.
 - **Explanation snippet otherwise.** When the fix spans several places or files, or the code is there to explain rather than to apply, use a short ` ```python ` snippet (1–5 lines) instead.
 
@@ -146,9 +158,9 @@ Good (plain, spaced, one-click suggestion — comment covers lines 41–42):
 ````
 issue (blocking): I'm worried this connection leaks when the request fails.
 
-We open it, but never close it on the error path — errors pile up open connections.
+We open it, but never close it when the query raises, so each failed request leaves a connection open.
 
-Could we use a context manager, like clients/db.py does?
+Could we use a context manager, like [`clients/db.py`](https://github.com/{owner}/{repo}/blob/<head-sha>/clients/db.py#L12-L14) does?
 
 ```suggestion
     with get_connection() as conn:
@@ -162,11 +174,19 @@ suggestion (non-blocking): `row_id in allowed` scans the whole list on every loo
 
 With 10k rows that's ~100M comparisons.
 
-Could we make `allowed` a set where it's loaded, in `sync/loader.py`?
+Could we make `allowed` a set [where it's loaded](https://github.com/{owner}/{repo}/blob/<head-sha>/sync/loader.py#L30)?
 
 ```python
 allowed = set(load_allowed_ids())
 ```
+````
+
+Before and after (same finding — shorter, and it says when it happens and how to fix it):
+
+````
+Before: There's a second problem: `save_activity` builds each item's id from the current time (`int(time())`, sw/core/database/write/candidates.py:144-147). Run this twice and you get two copies of the same activity instead of one.
+
+After: A retry would write a second copy, because [`save_activity`](https://github.com/{owner}/{repo}/blob/<head-sha>/backend/sdk/sw/core/database/write/candidates.py#L140-L148) puts the current time in the ID. Passing [the email's timestamp](https://github.com/{owner}/{repo}/blob/<head-sha>/backend/lambda/streams/send_mail/email_activities.py#L41-L43) avoids that.
 ````
 
 ### PHASE 5: Add to the PENDING review — append-only, never submit
